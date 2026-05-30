@@ -9,7 +9,7 @@ use ReflectionClass;
 
 class Normalizer
 {
-    private ?AttributeProcessor $attributeProcessor;
+    private ?AttributeProcessorInterface $attributeProcessor;
 
     public function __construct(
         ?AttributeProcessorInterface $attributeProcessor = null,
