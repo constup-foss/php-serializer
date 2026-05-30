@@ -67,4 +67,35 @@ class ContextException extends ConstupFossPhpSerializerException
 
         return $this;
     }
+
+    /**
+     * Thrown when trying to add an empty node when building a context.
+     *
+     * @return $this
+     */
+    public function emptyContextNodeName(): self
+    {
+        $this->message = 'Context node name is empty.';
+        $this->debugMessage = 'Context node name is empty.';
+        $this->code = 1004;
+        $this->recoverable = false;
+
+        return $this;
+    }
+
+    /**
+     * Thrown when trying to create a context node that contains a path separator (`->`).
+     * Thrown when trying to create a context node that contains whitespace (` `).
+     *
+     * @return $this
+     */
+    public function invalidNodeName(): self
+    {
+        $this->message = 'Invalid context node name.';
+        $this->debugMessage = 'Invalid context node name.';
+        $this->code = 1005;
+        $this->recoverable = false;
+
+        return $this;
+    }
 }
