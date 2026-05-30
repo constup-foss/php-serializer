@@ -22,6 +22,9 @@ readonly class AttributeProcessor
     /**
      * Process applicable attributes on the given property.
      *
+     * Uses the normalization `$context` to pass context data to attribute processors. Applicable context is defined by
+     * `$contextPath`.
+     *
      * Supported attributes (from the `constup-foss/php-attributes` package):
      *
      *  - `DoNotSerialize`
