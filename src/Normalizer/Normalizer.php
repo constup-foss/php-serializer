@@ -12,7 +12,7 @@ class Normalizer
     private ?AttributeProcessor $attributeProcessor;
 
     public function __construct(
-        ?AttributeProcessor $attributeProcessor = null,
+        ?AttributeProcessorInterface $attributeProcessor = null,
     ) {
         if ($attributeProcessor === null) {
             $this->attributeProcessor = new AttributeProcessor();

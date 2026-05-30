@@ -17,31 +17,16 @@ use ReflectionException;
 use ReflectionProperty;
 use stdClass;
 
-readonly class AttributeProcessor
+readonly class AttributeProcessor implements AttributeProcessorInterface
 {
     /**
-     * Process applicable attributes on the given property.
-     *
-     * Uses the normalization `$context` to pass context data to attribute processors. Applicable context is defined by
-     * `$contextPath`.
-     *
-     * Supported attributes (from the `constup-foss/php-attributes` package):
-     *
-     *  - `DoNotSerialize`
-     *  - `TransformPropertyName`
-     *  - `TransformPropertyValue`
-     *
-     * @see https://packagist.org/packages/constup-foss/php-attributes
-     *
-     * @param ReflectionProperty $reflectionProperty Reflection property to process.
-     * @param object             $object             Object to normalize.
-     * @param string             $contextPath        Normalization context path.
-     * @param array|stdClass     $context            Normalization context.
-     *
+     * @param ReflectionProperty $reflectionProperty
+     * @param object $object
+     * @param string $contextPath
+     * @param array|stdClass $context
+     * @return Property|null
      * @throws ContextException
      * @throws ReflectionException
-     *
-     * @return Property|null
      */
     public function processAttributes(
         ReflectionProperty $reflectionProperty,
