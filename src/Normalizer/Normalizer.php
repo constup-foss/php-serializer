@@ -7,7 +7,7 @@ namespace ConstupFoss\PhpSerializer\Normalizer;
 use ConstupFoss\PhpSerializer\Utility\AttributeArgumentsUtility;
 use ReflectionClass;
 
-class Normalizer
+readonly class Normalizer
 {
     private ?AttributeProcessorInterface $attributeProcessor;
 
