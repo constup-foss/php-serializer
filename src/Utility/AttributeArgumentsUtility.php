@@ -4,39 +4,39 @@ declare(strict_types = 1);
 
 namespace ConstupFoss\PhpSerializer\Utility;
 
-use ConstupFoss\PhpSerializer\Exceptions\ContextException;
+use ConstupFoss\PhpSerializer\Exceptions\AttributeArgumentsException;
 use stdClass;
 
-class ContextUtility
+class AttributeArgumentsUtility
 {
     public const string SEPARATOR = '->';
 
     /**
-     * Returns the value at the given path in the context.
+     * Returns the value at the given path in attribute arguments.
      *
      * Path nodes are separated by `->`.
      *
-     * @param array|stdClass $context
+     * @param array|stdClass $attributeArguments
      * @param string         $path
      *
-     * @throws ContextException when path has invalid format or is not found in context.
+     * @throws AttributeArgumentsException when path has invalid format or is not found in attribute arguments.
      *
      * @return mixed
      */
-    public static function getByPath(array|stdClass $context, string $path): mixed
+    public static function getByPath(array|stdClass $attributeArguments, string $path): mixed
     {
         if (trim($path) === '') {
-            throw new ContextException()->pathIsEmpty();
+            throw new AttributeArgumentsException()->pathIsEmpty();
         }
 
-        if (empty($context)) {
-            throw new ContextException()->contextIsEmpty();
+        if (empty($attributeArguments)) {
+            throw new AttributeArgumentsException()->attributeArgumentsAreEmpty();
         }
 
         $keys = explode(self::SEPARATOR, $path);
 
         if (in_array('', $keys, true)) {
-            throw new ContextException()->pathContainsEmptySegment();
+            throw new AttributeArgumentsException()->pathContainsEmptySegment();
         }
 
         $sentinel = new class() {};
@@ -63,31 +63,31 @@ class ContextUtility
 
                 return $sentinel; // Tried to descend into a scalar
             },
-            (static fn (): mixed => $context)()
+            (static fn (): mixed => $attributeArguments)()
         );
 
         if ($value === $sentinel) {
-            throw new ContextException()->contextPathNotFound($path);
+            throw new AttributeArgumentsException()->pathNotFound($path);
         }
 
         return $value;
     }
 
     /**
-     * Determines if the given path exists in the context.
+     * Determines if the given path exists in attribute arguments.
      *
-     * @param array|object $context
+     * @param array|object $attributeArguments
      * @param string       $path
      *
      * @return bool
      */
-    public static function hasPath(array|object $context, string $path): bool
+    public static function hasPath(array|object $attributeArguments, string $path): bool
     {
         try {
-            self::getByPath($context, $path);
+            self::getByPath($attributeArguments, $path);
 
             return true;
-        } catch (ContextException) {
+        } catch (AttributeArgumentsException) {
             return false;
         }
     }

@@ -5,22 +5,22 @@ declare(strict_types = 1);
 namespace ConstupFoss\PhpSerializer\Normalizer;
 
 use Closure;
-use ConstupFoss\PhpSerializer\Exceptions\ContextException;
-use ConstupFoss\PhpSerializer\Utility\ContextUtility;
+use ConstupFoss\PhpSerializer\Exceptions\AttributeArgumentsException;
+use ConstupFoss\PhpSerializer\Utility\AttributeArgumentsUtility;
 use stdClass;
 
-class ContextBuilder
+class AttributeArgumentsBuilder
 {
-    private stdClass $context;
+    private stdClass $attributeArguments;
     private array $path = [];
 
     public function __construct()
     {
-        $this->context = (object)[
+        $this->attributeArguments = (object)[
             'root' => (object)[],
         ];
 
-        $this->path[] = $this->context->root;
+        $this->path[] = $this->attributeArguments->root;
     }
 
     /**
@@ -29,7 +29,7 @@ class ContextBuilder
      * @param string       $propertyName
      * @param Closure|null $children
      *
-     * @throws ContextException
+     * @throws AttributeArgumentsException
      *
      * @return self
      */
@@ -54,7 +54,7 @@ class ContextBuilder
      * @param string       $attributeFqn
      * @param Closure|null $children
      *
-     * @throws ContextException
+     * @throws AttributeArgumentsException
      *
      * @return self
      */
@@ -75,35 +75,35 @@ class ContextBuilder
     }
 
     /**
-     * Create attribute context for an attribute.
+     * Create attribute arguments for an attribute.
      *
      * @param string $attributeFqn
-     * @param array  $context
+     * @param array  $attributeArguments
      *
-     * @throws ContextException
+     * @throws AttributeArgumentsException
      *
      * @return $this
      */
-    public function attributeContext(string $attributeFqn, array $context): self
+    public function attributeArguments(string $attributeFqn, array $attributeArguments): self
     {
         $this->validateNodeName($attributeFqn);
         $currentNode = $this->getCurrentNode();
 
         $currentNode->{$attributeFqn} = (object)[
-            'context' => $context,
+            'attributeArguments' => $attributeArguments,
         ];
 
         return $this;
     }
 
     /**
-     * Return the built context.
+     * Return built attribute arguments.
      *
      * @return object
      */
     public function build(): object
     {
-        return $this->context;
+        return $this->attributeArguments;
     }
 
     /**
@@ -111,21 +111,21 @@ class ContextBuilder
      *
      * @param string $name
      *
-     * @throws ContextException
+     * @throws AttributeArgumentsException
      *
      * @return void
      */
     private function validateNodeName(string $name): void
     {
         if ($name === '') {
-            throw new ContextException()->emptyContextNodeName();
+            throw new AttributeArgumentsException()->emptyContextNodeName();
         }
 
         if (
-            str_contains($name, ContextUtility::SEPARATOR) ||
+            str_contains($name, AttributeArgumentsUtility::SEPARATOR) ||
             str_contains($name, ' ')
         ) {
-            throw new ContextException()->invalidNodeName();
+            throw new AttributeArgumentsException()->invalidNodeName();
         }
     }
 

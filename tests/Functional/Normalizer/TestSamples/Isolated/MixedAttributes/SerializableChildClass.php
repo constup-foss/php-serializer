@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\TestSamples\Isolated\MixedAttributes;
 
@@ -15,5 +15,6 @@ class SerializableChildClass
         #[TransformPropertyName(ContextAwareNameModifier::transform(...))]
         #[TransformPropertyValue(ContextAwareValueModifier::transform(...))]
         public string $changedNameAndValue,
-    ) {}
+    ) {
+    }
 }

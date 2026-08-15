@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalizer;
 
@@ -13,7 +13,8 @@ use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\TestSamples\NonSeriali
 
 readonly class MixedAttributesDataProvider
 {
-    public static function provide_HappyFlow(): array {
+    public static function provide_HappyFlow(): array
+    {
         return [
             'MixedAttributes - simple - direct property.' => [
                 'object' => new SimpleMixedAttributesClass(
@@ -40,62 +41,62 @@ readonly class MixedAttributesDataProvider
                         changedNameAndValue: 'changed name and value',
                     ),
                 ),
-                'context' => [
-                    'root' => (object) [
-                        'changedName' => (object) [
-                            TransformPropertyName::class => (object) [
-                                'context' => ['TEST_FROM_CONTEXT_'],
+                'attributeArguments' => [
+                    'root' => (object)[
+                        'changedName' => (object)[
+                            TransformPropertyName::class => (object)[
+                                'attributeArguments' => ['TEST_FROM_CONTEXT_'],
                             ],
                         ],
-                        'changedValue' => (object) [
-                            TransformPropertyValue::class => (object) [
-                                'context' => ['_TEST_FROM_CONTEXT'],
+                        'changedValue' => (object)[
+                            TransformPropertyValue::class => (object)[
+                                'attributeArguments' => ['_TEST_FROM_CONTEXT'],
                             ],
                         ],
-                        'changedNameAndValue' => (object) [
-                            TransformPropertyName::class => (object) [
-                                'context' => ['TEST_FROM_CONTEXT_'],
+                        'changedNameAndValue' => (object)[
+                            TransformPropertyName::class => (object)[
+                                'attributeArguments' => ['TEST_FROM_CONTEXT_'],
                             ],
-                            TransformPropertyValue::class => (object) [
-                                'context' => ['_TEST_FROM_CONTEXT'],
+                            TransformPropertyValue::class => (object)[
+                                'attributeArguments' => ['_TEST_FROM_CONTEXT'],
                             ],
                         ],
-                        'serializableChildClass' => (object) [
-                            'changedNameAndValue' => (object) [
-                                TransformPropertyName::class => (object) [
-                                    'context' => ['TEST_FROM_CONTEXT_'],
+                        'serializableChildClass' => (object)[
+                            'changedNameAndValue' => (object)[
+                                TransformPropertyName::class => (object)[
+                                    'attributeArguments' => ['TEST_FROM_CONTEXT_'],
                                 ],
-                                TransformPropertyValue::class => (object) [
-                                    'context' => ['_TEST_FROM_CONTEXT'],
-                                ]
+                                TransformPropertyValue::class => (object)[
+                                    'attributeArguments' => ['_TEST_FROM_CONTEXT'],
+                                ],
                             ],
                         ],
-                        'nullAfterValueTransformation' => (object) [
-                            TransformPropertyValue::class => (object) [
-                                'context' => ['dummy param content'],
+                        'nullAfterValueTransformation' => (object)[
+                            TransformPropertyValue::class => (object)[
+                                'attributeArguments' => ['dummy param content'],
                             ],
-                            'changedNameAndValue' => (object) [
-                                TransformPropertyName::class => (object) [
-                                    'context' => ['TEST_FROM_CONTEXT_'],
+                            'changedNameAndValue' => (object)[
+                                TransformPropertyName::class => (object)[
+                                    'attributeArguments' => ['TEST_FROM_CONTEXT_'],
                                 ],
-                                TransformPropertyValue::class => (object) [
-                                    'context' => ['_TEST_FROM_CONTEXT'],
-                                ]
-                            ]
+                                TransformPropertyValue::class => (object)[
+                                    'attributeArguments' => ['_TEST_FROM_CONTEXT'],
+                                ],
+                            ],
                         ],
-                        'transformationInsideTransformedName' => (object) [
-                            TransformPropertyName::class => (object) [
-                                'context' => ['TEST_FROM_CONTEXT_'],
+                        'transformationInsideTransformedName' => (object)[
+                            TransformPropertyName::class => (object)[
+                                'attributeArguments' => ['TEST_FROM_CONTEXT_'],
                             ],
-                            'changedNameAndValue' => (object) [
-                                TransformPropertyName::class => (object) [
-                                    'context' => ['TEST_FROM_CONTEXT_'],
+                            'changedNameAndValue' => (object)[
+                                TransformPropertyName::class => (object)[
+                                    'attributeArguments' => ['TEST_FROM_CONTEXT_'],
                                 ],
-                                TransformPropertyValue::class => (object) [
-                                    'context' => ['_TEST_FROM_CONTEXT'],
-                                ]
-                            ]
-                        ]
+                                TransformPropertyValue::class => (object)[
+                                    'attributeArguments' => ['_TEST_FROM_CONTEXT'],
+                                ],
+                            ],
+                        ],
                     ],
                 ],
                 'expected' => [
@@ -112,8 +113,8 @@ readonly class MixedAttributesDataProvider
                     'TEST_FROM_CONTEXT_transformationInsideTransformedName' => [
                         'TEST_FROM_CONTEXT_changedNameAndValue' => 'changed name and value_TEST_FROM_CONTEXT',
                     ],
-                ]
-            ]
+                ],
+            ],
         ];
     }
 }

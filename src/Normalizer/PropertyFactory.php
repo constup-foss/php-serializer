@@ -9,15 +9,15 @@ readonly class PropertyFactory
     /**
      * @param string $name
      * @param mixed  $value
-     * @param string $contextPath
+     * @param string $attributeArgumentsPath
      *
      * @return Property
      */
     public static function produce(
         string $name,
         mixed $value,
-        string $contextPath,
+        string $attributeArgumentsPath,
     ): Property {
-        return new Property($name, $value, $contextPath);
+        return new Property($name, $value, $attributeArgumentsPath);
     }
 }

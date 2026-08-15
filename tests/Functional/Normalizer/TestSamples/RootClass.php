@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\TestSamples;
 
@@ -12,5 +12,6 @@ readonly class RootClass
         public string $noAttributesProperty,
         #[DoNotSerialize]
         public string $doNotSerializeProperty,
-    ) {}
+    ) {
+    }
 }

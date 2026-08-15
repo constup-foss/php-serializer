@@ -12,7 +12,7 @@ readonly class ProduceDataProvider
             'Happy flow' => [
                 'name' => 'foo',
                 'value' => 'bar',
-                'contextPath' => 'root->fee->fie',
+                'attributeArgumentsPath' => 'root->fee->fie',
             ],
         ];
     }

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ConstupFoss\PhpSerializer\Tests\Functional\Normalizer;
 
@@ -19,12 +19,12 @@ class NormalizerTest extends TestCase
     #[DataProviderExternal(TransformPropertyValueDataProvider::class, 'provide_HappyFlow')]
     #[DataProviderExternal(MixedAttributesDataProvider::class, 'provide_HappyFlow')]
     public function test_normalize_HappyFlow(
-        object $object,
-        array|object $context,
-        array $expected
+        object       $object,
+        array|object $attributeArguments,
+        array        $expected
     ): void {
         $class = new Normalizer();
-        $result = $class->normalize($object, $context);
+        $result = $class->normalize($object, $attributeArguments);
 
         $this->assertEquals($expected, $result);
     }
@@ -32,15 +32,15 @@ class NormalizerTest extends TestCase
     #[DataProviderExternal(TransformPropertyNameDataProvider::class, 'provide_ErrorFlow')]
     #[DataProviderExternal(TransformPropertyValueDataProvider::class, 'provide_ErrorFlow')]
     public function test_normalize_ErrorFlow(
-        object $object,
-        array|object $context,
-        string $expectedException,
-        int $expectedExceptionCode,
+        object       $object,
+        array|object $attributeArguments,
+        string       $expectedException,
+        int          $expectedExceptionCode,
     ): void {
         $this->expectException($expectedException);
         $this->expectExceptionCode($expectedExceptionCode);
 
         $class = new Normalizer();
-        $class->normalize($object, $context);
+        $class->normalize($object, $attributeArguments);
     }
 }

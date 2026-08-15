@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\TestSamples\Isolated\TransformPropertyValue;
 
@@ -13,5 +13,6 @@ readonly class SimpleTransformPropertyValue
         public string $noAttributes,
         #[TransformPropertyValue(SimpleValueModifier::modify(...))]
         public string $simpleName,
-    ) {}
+    ) {
+    }
 }

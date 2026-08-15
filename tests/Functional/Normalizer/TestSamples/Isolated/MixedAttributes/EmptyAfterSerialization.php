@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\TestSamples\Isolated\MixedAttributes;
 
@@ -11,5 +11,6 @@ readonly class EmptyAfterSerialization
     public function __construct(
         #[DoNotSerialize]
         public string $doNotSerialize,
-    ) {}
+    ) {
+    }
 }

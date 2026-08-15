@@ -1,11 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalizer;
 
 use Constup\PhpAttributes\Serialization\TransformPropertyValue\TransformPropertyValue;
-use ConstupFoss\PhpSerializer\Exceptions\ContextException;
+use ConstupFoss\PhpSerializer\Exceptions\AttributeArgumentsException;
 use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\TestSamples\Isolated\TransformPropertyValue\ArrayContainingChild;
 use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\TestSamples\Isolated\TransformPropertyValue\ArrayTransformPropertyValue;
 use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\TestSamples\Isolated\TransformPropertyValue\Child01;
@@ -19,45 +19,46 @@ use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\TestSamples\Isolated\T
 
 readonly class TransformPropertyValueDataProvider
 {
-    public static function provide_HappyFlow(): array {
+    public static function provide_HappyFlow(): array
+    {
         return [
             'TransformPropertyValue - isolated - simple - direct property.' => [
                 'object' => new SimpleTransformPropertyValue(
                     noAttributes: 'noAttributes',
                     simpleName: 'simple value',
                 ),
-                'context' => (object)[
+                'attributeArguments' => (object)[
                     'root' => (object)[
                         'simpleName' => (object)[
                             TransformPropertyValue::class => (object)[
-                                'context' => [],
-                            ]
+                                'attributeArguments' => [],
+                            ],
                         ],
-                    ]
+                    ],
                 ],
                 'expected' => [
                     'noAttributes' => 'noAttributes',
                     'simpleName' => 'simple value_SimpleValueModifier',
-                ]
+                ],
             ],
             'TransformPropertyValue - isolated - context-aware - direct property.' => [
                 'object' => new ContextAwareTransformPropertyValue(
                     noAttributes: 'noAttributes',
                     contextAwareName: 'context aware value',
                 ),
-                'context' => (object)[
+                'attributeArguments' => (object)[
                     'root' => (object)[
                         'contextAwareName' => (object)[
                             TransformPropertyValue::class => (object)[
-                                'context' => ['_TEST_FROM_CONTEXT'],
-                            ]
-                        ]
-                    ]
+                                'attributeArguments' => ['_TEST_FROM_CONTEXT'],
+                            ],
+                        ],
+                    ],
                 ],
                 'expected' => [
                     'noAttributes' => 'noAttributes',
                     'contextAwareName' => 'context aware value_TEST_FROM_CONTEXT',
-                ]
+                ],
             ],
             'TransformPropertyValue - isolated - context-aware - nested property.' => [
                 'object' => new ChildObjectTransformPropertyValue(
@@ -67,16 +68,16 @@ readonly class TransformPropertyValueDataProvider
                         contextAwareName: 'context aware value',
                     ),
                 ),
-                'context' => (object)[
+                'attributeArguments' => (object)[
                     'root' => (object)[
                         'child' => (object)[
                             'contextAwareName' => (object)[
                                 TransformPropertyValue::class => (object)[
-                                    'context' => ['_TEST_FROM_CONTEXT'],
-                                ]
-                            ]
-                        ]
-                    ]
+                                    'attributeArguments' => ['_TEST_FROM_CONTEXT'],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 'expected' => [
                     'parentNoAttribute' => 'parent no attribute',
@@ -84,7 +85,7 @@ readonly class TransformPropertyValueDataProvider
                         'noAttributes' => 'noAttributes',
                         'contextAwareName' => 'context aware value_TEST_FROM_CONTEXT',
                     ],
-                ]
+                ],
             ],
             'TransformPropertyValue - isolated - context-aware - direct property - object within list array - uniform array element types.' => [
                 'object' => new ArrayTransformPropertyValue(
@@ -103,23 +104,23 @@ readonly class TransformPropertyValueDataProvider
                         new Child01(
                             noAttributes: 'element 3 - noAttributes',
                             contextAwareName: 'element 3 - context aware value',
-                        )
+                        ),
                     ]
                 ),
-                'context' => (object)[
+                'attributeArguments' => (object)[
                     'root' => (object)[
                         'children' => (object)[
                             '__types' => (object)[
                                 Child01::class => (object)[
                                     'contextAwareName' => (object)[
                                         TransformPropertyValue::class => (object)[
-                                            'context' => ['_TEST_FROM_CONTEXT'],
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                            'attributeArguments' => ['_TEST_FROM_CONTEXT'],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 'expected' => [
                     'parentNoAttribute' => 'parent no attribute',
@@ -137,9 +138,9 @@ readonly class TransformPropertyValueDataProvider
                         [
                             'noAttributes' => 'element 3 - noAttributes',
                             'contextAwareName' => 'element 3 - context aware value_TEST_FROM_CONTEXT',
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ],
             'TransformPropertyValue - isolated - context-aware - direct property - object within array - variable array element types.' => [
                 'object' => new ArrayTransformPropertyValue(
@@ -166,30 +167,30 @@ readonly class TransformPropertyValueDataProvider
                         new Child02(
                             intProperty: 7,
                             stringProperty: 'child 02 2 string value',
-                        )
+                        ),
                     ]
                 ),
-                'context' => (object)[
+                'attributeArguments' => (object)[
                     'root' => (object)[
                         'children' => (object)[
                             '__types' => (object)[
                                 Child01::class => (object)[
                                     'contextAwareName' => (object)[
                                         TransformPropertyValue::class => (object)[
-                                            'context' => ['_TEST_FROM_CONTEXT'],
-                                        ]
-                                    ]
+                                            'attributeArguments' => ['_TEST_FROM_CONTEXT'],
+                                        ],
+                                    ],
                                 ],
                                 Child02::class => (object)[
                                     'stringProperty' => (object)[
                                         TransformPropertyValue::class => (object)[
-                                            'context' => ['_TEST_FROM_CONTEXT'],
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                            'attributeArguments' => ['_TEST_FROM_CONTEXT'],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 'expected' => [
                     'parentNoAttribute' => 'parent no attribute',
@@ -215,9 +216,9 @@ readonly class TransformPropertyValueDataProvider
                         [
                             'intProperty' => 7,
                             'stringProperty' => 'child 02 2 string value_TEST_FROM_CONTEXT_Alternative',
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ],
             'TransformPropertyValue - isolated - context-aware - direct property - object within associative array - uniform array element types.' => [
                 'object' => new ArrayTransformPropertyValue(
@@ -236,23 +237,23 @@ readonly class TransformPropertyValueDataProvider
                         'element05' => new Child01(
                             noAttributes: 'element 3 - noAttributes',
                             contextAwareName: 'element 3 - context aware value',
-                        )
+                        ),
                     ]
                 ),
-                'context' => (object)[
+                'attributeArguments' => (object)[
                     'root' => (object)[
                         'children' => (object)[
                             '__types' => (object)[
                                 Child01::class => (object)[
                                     'contextAwareName' => (object)[
                                         TransformPropertyValue::class => (object)[
-                                            'context' => ['_TEST_FROM_CONTEXT'],
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                            'attributeArguments' => ['_TEST_FROM_CONTEXT'],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 'expected' => [
                     'parentNoAttribute' => 'parent no attribute',
@@ -270,9 +271,9 @@ readonly class TransformPropertyValueDataProvider
                         'element05' => [
                             'noAttributes' => 'element 3 - noAttributes',
                             'contextAwareName' => 'element 3 - context aware value_TEST_FROM_CONTEXT',
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ],
             'TransformPropertyValue - isolated - context-aware - nested property - object within array - uniform array element types.' => [
                 'object' => new NestedArrayTransformPropertyValue(
@@ -292,11 +293,11 @@ readonly class TransformPropertyValueDataProvider
                             new Child01(
                                 noAttributes: 'element 3 - noAttributes',
                                 contextAwareName: 'element 3 - context aware value',
-                            )
+                            ),
                         ]
                     )
                 ),
-                'context' => (object)[
+                'attributeArguments' => (object)[
                     'root' => (object)[
                         'child' => (object)[
                             'children' => (object)[
@@ -304,14 +305,14 @@ readonly class TransformPropertyValueDataProvider
                                     Child01::class => (object)[
                                         'contextAwareName' => (object)[
                                             TransformPropertyValue::class => (object)[
-                                                'context' => ['_TEST_FROM_CONTEXT'],
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                'attributeArguments' => ['_TEST_FROM_CONTEXT'],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 'expected' => [
                     'parentNoAttribute' => 'parent no attribute',
@@ -330,10 +331,10 @@ readonly class TransformPropertyValueDataProvider
                             [
                                 'noAttributes' => 'element 3 - noAttributes',
                                 'contextAwareName' => 'element 3 - context aware value_TEST_FROM_CONTEXT',
-                            ]
-                        ]
-                    ]
-                ]
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'TransformPropertyValue - isolated - context-aware - nested property - object within array - variable array element types.' => [
                 'object' => new NestedArrayTransformPropertyValue(
@@ -361,11 +362,11 @@ readonly class TransformPropertyValueDataProvider
                             new Child02(
                                 intProperty: 7,
                                 stringProperty: 'child 02 2 string value',
-                            )
+                            ),
                         ]
                     )
                 ),
-                'context' => (object)[
+                'attributeArguments' => (object)[
                     'root' => (object)[
                         'child' => (object)[
                             'children' => (object)[
@@ -373,21 +374,21 @@ readonly class TransformPropertyValueDataProvider
                                     Child01::class => (object)[
                                         'contextAwareName' => (object)[
                                             TransformPropertyValue::class => (object)[
-                                                'context' => ['_TEST_FROM_CONTEXT'],
-                                            ]
-                                        ]
+                                                'attributeArguments' => ['_TEST_FROM_CONTEXT'],
+                                            ],
+                                        ],
                                     ],
                                     Child02::class => (object)[
                                         'stringProperty' => (object)[
                                             TransformPropertyValue::class => (object)[
-                                                'context' => ['_TEST_FROM_CONTEXT'],
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                'attributeArguments' => ['_TEST_FROM_CONTEXT'],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 'expected' => [
                     'parentNoAttribute' => 'parent no attribute',
@@ -414,10 +415,10 @@ readonly class TransformPropertyValueDataProvider
                             [
                                 'intProperty' => 7,
                                 'stringProperty' => 'child 02 2 string value_TEST_FROM_CONTEXT_Alternative',
-                            ]
-                        ]
-                    ]
-                ]
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'TransformPropertyValue - isolated - context-aware - objects in nested arrays' => [
                 'object' => new DoubleArray(
@@ -438,7 +439,7 @@ readonly class TransformPropertyValueDataProvider
                                             ),
                                             9,
                                         ]
-                                    )
+                                    ),
                                 ],
                                 [
                                     new ArrayContainingChild(
@@ -453,13 +454,13 @@ readonly class TransformPropertyValueDataProvider
                                                 contextAwareName: 'element 3 - context aware value',
                                             ),
                                         ]
-                                    )
-                                ]
+                                    ),
+                                ],
                             ]
-                        )
+                        ),
                     ]
                 ),
-                'context' => (object)[
+                'attributeArguments' => (object)[
                     'root' => (object)[
                         'childrenContainingArrays' => (object)[
                             '__types' => (object)[
@@ -472,26 +473,26 @@ readonly class TransformPropertyValueDataProvider
                                                         Child01::class => (object)[
                                                             'contextAwareName' => (object)[
                                                                 TransformPropertyValue::class => (object)[
-                                                                    'context' => ['_TEST_FROM_CONTEXT'],
-                                                                ]
-                                                            ]
+                                                                    'attributeArguments' => ['_TEST_FROM_CONTEXT'],
+                                                                ],
+                                                            ],
                                                         ],
                                                         Child02::class => (object)[
                                                             'stringProperty' => (object)[
                                                                 TransformPropertyValue::class => (object)[
-                                                                    'context' => ['_TEST_FROM_CONTEXT'],
-                                                                ]
-                                                            ]
-                                                        ]
-                                                    ]
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                                                    'attributeArguments' => ['_TEST_FROM_CONTEXT'],
+                                                                ],
+                                                            ],
+                                                        ],
+                                                    ],
+                                                ],
+                                            ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 'expected' => [
                     'parentNoAttribute' => 'parent no attribute',
@@ -510,7 +511,7 @@ readonly class TransformPropertyValueDataProvider
                                                 'stringProperty' => 'child 02 1 string value_TEST_FROM_CONTEXT_Alternative',
                                             ],
                                             9,
-                                        ]
+                                        ],
                                     ],
                                 ],
                                 [
@@ -524,29 +525,30 @@ readonly class TransformPropertyValueDataProvider
                                             [
                                                 'noAttributes' => 'element 3 - noAttributes',
                                                 'contextAwareName' => 'element 3 - context aware value_TEST_FROM_CONTEXT',
-                                            ]
-                                        ]
+                                            ],
+                                        ],
                                     ],
-                                ]
+                                ],
                             ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ],
         ];
     }
 
-    public static function provide_ErrorFlow(): array {
+    public static function provide_ErrorFlow(): array
+    {
         return [
             'TransformPropertyValue - Empty context for context aware attribute.' => [
                 'object' => new SimpleTransformPropertyValue(
                     noAttributes: 'noAttributes',
                     simpleName: 'simple value',
                 ),
-                'context' => [],
-                'expectedException' => ContextException::class,
-                'expectedExceptionCode' => 1003
-            ]
+                'attributeArguments' => [],
+                'expectedException' => AttributeArgumentsException::class,
+                'expectedExceptionCode' => 1003,
+            ],
         ];
     }
 }

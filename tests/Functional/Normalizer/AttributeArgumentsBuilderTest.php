@@ -4,15 +4,15 @@ declare(strict_types = 1);
 
 namespace ConstupFoss\PhpSerializer\Tests\Functional\Normalizer;
 
-use ConstupFoss\PhpSerializer\Normalizer\ContextBuilder;
-use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\ContextBuilderDataProvider;
+use ConstupFoss\PhpSerializer\Normalizer\AttributeArgumentsBuilder;
+use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\AttributeArgumentsBuilderDataProvider;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\TestCase;
 
-class ContextBuilderTest extends TestCase
+class AttributeArgumentsBuilderTest extends TestCase
 {
     #[DataProviderExternal(
-        ContextBuilderDataProvider::class,
+        AttributeArgumentsBuilderDataProvider::class,
         'provide_HappyFlow'
     )]
     public function test_build_HappyFlow(
@@ -21,12 +21,12 @@ class ContextBuilderTest extends TestCase
     ): void {
         $builder = $builderFactory();
 
-        $this->assertInstanceOf(ContextBuilder::class, $builder);
+        $this->assertInstanceOf(AttributeArgumentsBuilder::class, $builder);
         $this->assertEquals($expected, $builder->build());
     }
 
     #[DataProviderExternal(
-        ContextBuilderDataProvider::class,
+        AttributeArgumentsBuilderDataProvider::class,
         'provide_ErrorFlow'
     )]
     public function test_build_ErrorFlow(

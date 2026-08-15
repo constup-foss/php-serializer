@@ -17,13 +17,13 @@ class PropertyFactoryTest extends TestCase
     )]
     public function testProduceProperty(
         string $name,
-        mixed $value,
-        string $contextPath,
+        mixed  $value,
+        string $attributeArgumentsPath,
     ): void {
-        $property = PropertyFactory::produce($name, $value, $contextPath);
+        $property = PropertyFactory::produce($name, $value, $attributeArgumentsPath);
 
         $this->assertEquals($name, $property->name);
         $this->assertEquals($value, $property->value);
-        $this->assertEquals($contextPath, $property->contextPath);
+        $this->assertEquals($attributeArgumentsPath, $property->attributeArgumentsPath);
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ConstupFoss\PhpSerializer\Normalizer;
 
-use ConstupFoss\PhpSerializer\Utility\ContextUtility;
+use ConstupFoss\PhpSerializer\Utility\AttributeArgumentsUtility;
 use ReflectionClass;
 
 class Normalizer
@@ -23,20 +23,18 @@ class Normalizer
 
     public function normalize(
         object $object,
-        array|object $context = [],
-    ): array
-    {
-        $contextPath = 'root';
+        array|object $attributeArguments = [],
+    ): array {
+        $attributeArgumentsPath = 'root';
 
-        return $this->normalizeObject($object, $contextPath, $context);
+        return $this->normalizeObject($object, $attributeArgumentsPath, $attributeArguments);
     }
 
     private function normalizeObject(
         object $object,
-        string $contextPath,
-        array|object $context,
-    ): array
-    {
+        string $attributeArgumentsPath,
+        array|object $attributeArguments,
+    ): array {
         $result = [];
         $reflectionClass = new ReflectionClass($object);
 
@@ -48,14 +46,15 @@ class Normalizer
             // handles null values before any potential transformation by attributes
             if ($reflectionProperty->getValue($object) === null) {
                 $result[$reflectionProperty->getName()] = null;
+
                 continue;
             }
 
             $property = $this->attributeProcessor->processAttributes(
                 $reflectionProperty,
                 $object,
-                $contextPath,
-                $context,
+                $attributeArgumentsPath,
+                $attributeArguments,
             );
 
             // DoNotSerialize attribute is present, skip this property
@@ -72,11 +71,11 @@ class Normalizer
 
             $value = $this->normalizeValue(
                 $property->value,
-                $property->contextPath,
-                $context,
+                $property->attributeArgumentsPath,
+                $attributeArguments,
             );
 
-            /** since null values are handled above, this null value means that the property is not serializable */
+            /* since null values are handled above, this null value means that the property is not serializable */
             if ($value === null) {
                 continue;
             }
@@ -89,10 +88,9 @@ class Normalizer
 
     private function normalizeValue(
         mixed $value,
-        string $contextPath,
-        array|object $context,
-    ): mixed
-    {
+        string $attributeArgumentsPath,
+        array|object $attributeArguments,
+    ): mixed {
         switch (true) {
             case is_bool($value):
             case is_int($value):
@@ -100,9 +98,9 @@ class Normalizer
             case is_string($value):
                 return $value;
             case is_object($value):
-                return $this->normalizeObject($value, $contextPath, $context);
+                return $this->normalizeObject($value, $attributeArgumentsPath, $attributeArguments);
             case is_array($value):
-                return $this->normalizeArray($value, $contextPath, $context);
+                return $this->normalizeArray($value, $attributeArgumentsPath, $attributeArguments);
             default:
                 return null;
         }
@@ -110,36 +108,35 @@ class Normalizer
 
     private function normalizeArray(
         array $array,
-        string $contextPath,
-        array|object $context,
-    ): array
-    {
+        string $attributeArgumentsPath,
+        array|object $attributeArguments,
+    ): array {
         $result = [];
 
         foreach ($array as $key => $item) {
-            $itemContextPath = $this->resolveArrayItemContextPath($item, $contextPath, $context);
+            $itemContextPath = $this->resolveArrayItemAttributeArgumentsPath($item, $attributeArgumentsPath, $attributeArguments);
 
-            $result[$key] = $this->normalizeValue($item, $itemContextPath, $context);
+            $result[$key] = $this->normalizeValue($item, $itemContextPath, $attributeArguments);
         }
 
         return $result;
     }
 
-    private function resolveArrayItemContextPath(
+    private function resolveArrayItemAttributeArgumentsPath(
         mixed $item,
-        string $contextPath,
-        array|object $context,
+        string $attributeArgumentsPath,
+        array|object $attributeArguments,
     ): string {
         if (!is_object($item)) {
-            return $contextPath;
+            return $attributeArgumentsPath;
         }
 
-        $candidatePath = $contextPath . '->__types->' . get_class($item);
+        $candidatePath = $attributeArgumentsPath . '->__types->' . get_class($item);
 
-        if (ContextUtility::hasPath($context, $candidatePath)) {
+        if (AttributeArgumentsUtility::hasPath($attributeArguments, $candidatePath)) {
             return $candidatePath;
         }
 
-        return $contextPath;
+        return $attributeArgumentsPath;
     }
 }

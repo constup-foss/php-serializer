@@ -12,12 +12,12 @@ readonly class Property
     /**
      * @param string $name
      * @param mixed  $value
-     * @param string $contextPath
+     * @param string $attributeArgumentsPath
      */
     public function __construct(
         public string $name,
         public mixed $value,
-        public string $contextPath,
+        public string $attributeArgumentsPath,
     ) {
     }
 }

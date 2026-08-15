@@ -10,7 +10,7 @@ readonly class HasPathDataProvider
     {
         return [
             'Object context. Deeply nested path.' => [
-                'context' => (object)[
+                'attributeArguments' => (object)[
                     'root' => (object)[
                         'foo' => (object)[
                             'bar' => [
@@ -25,7 +25,7 @@ readonly class HasPathDataProvider
                 'expected' => true,
             ],
             'Object context. Invalid path segment.' => [
-                'context' => (object)[
+                'attributeArguments' => (object)[
                     'root' => (object)[
                         'foo' => (object)[
                             'bar' => [
@@ -38,7 +38,7 @@ readonly class HasPathDataProvider
                 'expected' => false,
             ],
             'Object context. Missing path segment.' => [
-                'context' => (object)[
+                'attributeArguments' => (object)[
                     'root' => (object)[
                         'foo' => (object)[
                             'bar' => 'baz',
@@ -49,7 +49,7 @@ readonly class HasPathDataProvider
                 'expected' => false,
             ],
             'Object context. Missing leaf segment.' => [
-                'context' => (object)[
+                'attributeArguments' => (object)[
                     'root' => (object)[
                         'foo' => (object)[
                             'bar' => 'baz',
@@ -60,7 +60,7 @@ readonly class HasPathDataProvider
                 'expected' => false,
             ],
             'Array context. Deeply nested path.' => [
-                'context' => [
+                'attributeArguments' => [
                     'root' => [
                         'foo' => [
                             'bar' => [
@@ -75,7 +75,7 @@ readonly class HasPathDataProvider
                 'expected' => true,
             ],
             'Path is empty.' => [
-                'context' => [],
+                'attributeArguments' => [],
                 'path' => '',
                 'expected' => false,
             ],

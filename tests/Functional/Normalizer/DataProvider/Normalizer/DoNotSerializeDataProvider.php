@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalizer;
 
@@ -9,7 +9,8 @@ use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\TestSamples\NonSeriali
 
 readonly class DoNotSerializeDataProvider
 {
-    public static function provide_HappyFlow(): array {
+    public static function provide_HappyFlow(): array
+    {
         return [
             'DoNotSerialize - isolated. Only serializes applicable properties. Non-serializable object is not serialized.' => [
                 'object' => new DoNotSerializeClass(
@@ -17,10 +18,10 @@ readonly class DoNotSerializeDataProvider
                     doNotSerialize: 'doNotSerialize',
                     nonSerializableObject: new NonSerializableClass(),
                 ),
-                'context' => [],
+                'attributeArguments' => [],
                 'expected' => [
                     'noAttributes' => 'noAttributes',
-                ]
+                ],
             ],
         ];
     }

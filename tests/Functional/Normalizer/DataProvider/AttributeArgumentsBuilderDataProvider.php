@@ -5,34 +5,34 @@ declare(strict_types = 1);
 namespace ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider;
 
 use Constup\PhpAttributes\Serialization\TransformPropertyName\TransformPropertyName;
-use ConstupFoss\PhpSerializer\Exceptions\ContextException;
-use ConstupFoss\PhpSerializer\Normalizer\ContextBuilder;
+use ConstupFoss\PhpSerializer\Exceptions\AttributeArgumentsException;
+use ConstupFoss\PhpSerializer\Normalizer\AttributeArgumentsBuilder;
 
-readonly class ContextBuilderDataProvider
+readonly class AttributeArgumentsBuilderDataProvider
 {
     public static function provide_HappyFlow(): array
     {
         return [
             'simple property attribute context' => [
-                'builderFactory' => static fn (): ContextBuilder => new ContextBuilder()
-                    ->property('simpleName', function (ContextBuilder $builder): void {
-                        $builder->attributeContext(TransformPropertyName::class, []);
+                'builderFactory' => static fn (): AttributeArgumentsBuilder => new AttributeArgumentsBuilder()
+                    ->property('simpleName', function (AttributeArgumentsBuilder $builder): void {
+                        $builder->attributeArguments(TransformPropertyName::class, []);
                     }),
                 'expected' => (object)[
                     'root' => (object)[
                         'simpleName' => (object)[
                             TransformPropertyName::class => (object)[
-                                'context' => [],
+                                'attributeArguments' => [],
                             ],
                         ],
                     ],
                 ],
             ],
             'nested property attribute context' => [
-                'builderFactory' => static fn (): ContextBuilder => new ContextBuilder()
-                    ->property('child', function (ContextBuilder $builder): void {
-                        $builder->property('contextAwareName', function (ContextBuilder $builder): void {
-                            $builder->attributeContext(TransformPropertyName::class, ['TEST_FROM_CONTEXT_']);
+                'builderFactory' => static fn (): AttributeArgumentsBuilder => new AttributeArgumentsBuilder()
+                    ->property('child', function (AttributeArgumentsBuilder $builder): void {
+                        $builder->property('contextAwareName', function (AttributeArgumentsBuilder $builder): void {
+                            $builder->attributeArguments(TransformPropertyName::class, ['TEST_FROM_CONTEXT_']);
                         });
                     }),
                 'expected' => (object)[
@@ -40,7 +40,7 @@ readonly class ContextBuilderDataProvider
                         'child' => (object)[
                             'contextAwareName' => (object)[
                                 TransformPropertyName::class => (object)[
-                                    'context' => ['TEST_FROM_CONTEXT_'],
+                                    'attributeArguments' => ['TEST_FROM_CONTEXT_'],
                                 ],
                             ],
                         ],
@@ -48,11 +48,11 @@ readonly class ContextBuilderDataProvider
                 ],
             ],
             'typed array context' => [
-                'builderFactory' => static fn (): ContextBuilder => new ContextBuilder()
-                    ->property('children', function (ContextBuilder $builder): void {
-                        $builder->attributeInArray(SampleClass01::class, function (ContextBuilder $builder): void {
-                            $builder->property('contextAwareName', function (ContextBuilder $builder): void {
-                                $builder->attributeContext(TransformPropertyName::class, ['TEST_FROM_CONTEXT_']);
+                'builderFactory' => static fn (): AttributeArgumentsBuilder => new AttributeArgumentsBuilder()
+                    ->property('children', function (AttributeArgumentsBuilder $builder): void {
+                        $builder->attributeInArray(SampleClass01::class, function (AttributeArgumentsBuilder $builder): void {
+                            $builder->property('contextAwareName', function (AttributeArgumentsBuilder $builder): void {
+                                $builder->attributeArguments(TransformPropertyName::class, ['TEST_FROM_CONTEXT_']);
                             });
                         });
                     }),
@@ -63,7 +63,7 @@ readonly class ContextBuilderDataProvider
                                 SampleClass01::class => (object)[
                                     'contextAwareName' => (object)[
                                         TransformPropertyName::class => (object)[
-                                            'context' => ['TEST_FROM_CONTEXT_'],
+                                            'attributeArguments' => ['TEST_FROM_CONTEXT_'],
                                         ],
                                     ],
                                 ],
@@ -73,17 +73,17 @@ readonly class ContextBuilderDataProvider
                 ],
             ],
             'mixed type array context' => [
-                'builderFactory' => static fn (): ContextBuilder => new ContextBuilder()
-                    ->property('children', function (ContextBuilder $builder): void {
-                        $builder->attributeInArray(SampleClass01::class, function (ContextBuilder $builder): void {
-                            $builder->property('contextAwareName', function (ContextBuilder $builder): void {
-                                $builder->attributeContext(TransformPropertyName::class, ['TEST_FROM_CONTEXT_']);
+                'builderFactory' => static fn (): AttributeArgumentsBuilder => new AttributeArgumentsBuilder()
+                    ->property('children', function (AttributeArgumentsBuilder $builder): void {
+                        $builder->attributeInArray(SampleClass01::class, function (AttributeArgumentsBuilder $builder): void {
+                            $builder->property('contextAwareName', function (AttributeArgumentsBuilder $builder): void {
+                                $builder->attributeArguments(TransformPropertyName::class, ['TEST_FROM_CONTEXT_']);
                             });
                         });
 
-                        $builder->attributeInArray(SampleClass02::class, function (ContextBuilder $builder): void {
-                            $builder->property('stringProperty', function (ContextBuilder $builder): void {
-                                $builder->attributeContext(TransformPropertyName::class, ['ALT_']);
+                        $builder->attributeInArray(SampleClass02::class, function (AttributeArgumentsBuilder $builder): void {
+                            $builder->property('stringProperty', function (AttributeArgumentsBuilder $builder): void {
+                                $builder->attributeArguments(TransformPropertyName::class, ['ALT_']);
                             });
                         });
                     }),
@@ -94,14 +94,14 @@ readonly class ContextBuilderDataProvider
                                 SampleClass01::class => (object)[
                                     'contextAwareName' => (object)[
                                         TransformPropertyName::class => (object)[
-                                            'context' => ['TEST_FROM_CONTEXT_'],
+                                            'attributeArguments' => ['TEST_FROM_CONTEXT_'],
                                         ],
                                     ],
                                 ],
                                 SampleClass02::class => (object)[
                                     'stringProperty' => (object)[
                                         TransformPropertyName::class => (object)[
-                                            'context' => ['ALT_'],
+                                            'attributeArguments' => ['ALT_'],
                                         ],
                                     ],
                                 ],
@@ -111,21 +111,21 @@ readonly class ContextBuilderDataProvider
                 ],
             ],
             'deeply nested context' => [
-                'builderFactory' => static fn (): ContextBuilder => new ContextBuilder()
-                    ->property('childrenContainingArrays', function (ContextBuilder $builder): void {
-                        $builder->attributeInArray(SampleNestedClass01::class, function (ContextBuilder $builder): void {
-                            $builder->property('childWithArray', function (ContextBuilder $builder): void {
-                                $builder->attributeInArray(SampleNestedClass02::class, function (ContextBuilder $builder): void {
-                                    $builder->property('children', function (ContextBuilder $builder): void {
-                                        $builder->attributeInArray(SampleClass01::class, function (ContextBuilder $builder): void {
-                                            $builder->property('contextAwareName', function (ContextBuilder $builder): void {
-                                                $builder->attributeContext(TransformPropertyName::class, ['TEST_FROM_CONTEXT_']);
+                'builderFactory' => static fn (): AttributeArgumentsBuilder => new AttributeArgumentsBuilder()
+                    ->property('childrenContainingArrays', function (AttributeArgumentsBuilder $builder): void {
+                        $builder->attributeInArray(SampleNestedClass01::class, function (AttributeArgumentsBuilder $builder): void {
+                            $builder->property('childWithArray', function (AttributeArgumentsBuilder $builder): void {
+                                $builder->attributeInArray(SampleNestedClass02::class, function (AttributeArgumentsBuilder $builder): void {
+                                    $builder->property('children', function (AttributeArgumentsBuilder $builder): void {
+                                        $builder->attributeInArray(SampleClass01::class, function (AttributeArgumentsBuilder $builder): void {
+                                            $builder->property('contextAwareName', function (AttributeArgumentsBuilder $builder): void {
+                                                $builder->attributeArguments(TransformPropertyName::class, ['TEST_FROM_CONTEXT_']);
                                             });
                                         });
 
-                                        $builder->attributeInArray(SampleClass02::class, function (ContextBuilder $builder): void {
-                                            $builder->property('stringProperty', function (ContextBuilder $builder): void {
-                                                $builder->attributeContext(TransformPropertyName::class, ['ALT_']);
+                                        $builder->attributeInArray(SampleClass02::class, function (AttributeArgumentsBuilder $builder): void {
+                                            $builder->property('stringProperty', function (AttributeArgumentsBuilder $builder): void {
+                                                $builder->attributeArguments(TransformPropertyName::class, ['ALT_']);
                                             });
                                         });
                                     });
@@ -146,14 +146,14 @@ readonly class ContextBuilderDataProvider
                                                         SampleClass01::class => (object)[
                                                             'contextAwareName' => (object)[
                                                                 TransformPropertyName::class => (object)[
-                                                                    'context' => ['TEST_FROM_CONTEXT_'],
+                                                                    'attributeArguments' => ['TEST_FROM_CONTEXT_'],
                                                                 ],
                                                             ],
                                                         ],
                                                         SampleClass02::class => (object)[
                                                             'stringProperty' => (object)[
                                                                 TransformPropertyName::class => (object)[
-                                                                    'context' => ['ALT_'],
+                                                                    'attributeArguments' => ['ALT_'],
                                                                 ],
                                                             ],
                                                         ],
@@ -169,14 +169,14 @@ readonly class ContextBuilderDataProvider
                 ],
             ],
             'multiple sibling properties in same scope' => [
-                'builderFactory' => static fn (): ContextBuilder => new ContextBuilder()
-                    ->property('rootChild', function (ContextBuilder $builder): void {
-                        $builder->property('firstName', function (ContextBuilder $builder): void {
-                            $builder->attributeContext(TransformPropertyName::class, ['FIRST_']);
+                'builderFactory' => static fn (): AttributeArgumentsBuilder => new AttributeArgumentsBuilder()
+                    ->property('rootChild', function (AttributeArgumentsBuilder $builder): void {
+                        $builder->property('firstName', function (AttributeArgumentsBuilder $builder): void {
+                            $builder->attributeArguments(TransformPropertyName::class, ['FIRST_']);
                         });
 
-                        $builder->property('lastName', function (ContextBuilder $builder): void {
-                            $builder->attributeContext(TransformPropertyName::class, ['LAST_']);
+                        $builder->property('lastName', function (AttributeArgumentsBuilder $builder): void {
+                            $builder->attributeArguments(TransformPropertyName::class, ['LAST_']);
                         });
                     }),
                 'expected' => (object)[
@@ -184,12 +184,12 @@ readonly class ContextBuilderDataProvider
                         'rootChild' => (object)[
                             'firstName' => (object)[
                                 TransformPropertyName::class => (object)[
-                                    'context' => ['FIRST_'],
+                                    'attributeArguments' => ['FIRST_'],
                                 ],
                             ],
                             'lastName' => (object)[
                                 TransformPropertyName::class => (object)[
-                                    'context' => ['LAST_'],
+                                    'attributeArguments' => ['LAST_'],
                                 ],
                             ],
                         ],
@@ -197,16 +197,16 @@ readonly class ContextBuilderDataProvider
                 ],
             ],
             'scope is restored after nested closure' => [
-                'builderFactory' => static fn (): ContextBuilder => new ContextBuilder()
-                    ->property('parent', function (ContextBuilder $builder): void {
-                        $builder->property('child', function (ContextBuilder $builder): void {
-                            $builder->property('grandChild', function (ContextBuilder $builder): void {
-                                $builder->attributeContext(TransformPropertyName::class, ['GRAND_']);
+                'builderFactory' => static fn (): AttributeArgumentsBuilder => new AttributeArgumentsBuilder()
+                    ->property('parent', function (AttributeArgumentsBuilder $builder): void {
+                        $builder->property('child', function (AttributeArgumentsBuilder $builder): void {
+                            $builder->property('grandChild', function (AttributeArgumentsBuilder $builder): void {
+                                $builder->attributeArguments(TransformPropertyName::class, ['GRAND_']);
                             });
                         });
 
-                        $builder->property('sibling', function (ContextBuilder $builder): void {
-                            $builder->attributeContext(TransformPropertyName::class, ['SIBLING_']);
+                        $builder->property('sibling', function (AttributeArgumentsBuilder $builder): void {
+                            $builder->attributeArguments(TransformPropertyName::class, ['SIBLING_']);
                         });
                     }),
                 'expected' => (object)[
@@ -215,13 +215,13 @@ readonly class ContextBuilderDataProvider
                             'child' => (object)[
                                 'grandChild' => (object)[
                                     TransformPropertyName::class => (object)[
-                                        'context' => ['GRAND_'],
+                                        'attributeArguments' => ['GRAND_'],
                                     ],
                                 ],
                             ],
                             'sibling' => (object)[
                                 TransformPropertyName::class => (object)[
-                                    'context' => ['SIBLING_'],
+                                    'attributeArguments' => ['SIBLING_'],
                                 ],
                             ],
                         ],
@@ -235,69 +235,69 @@ readonly class ContextBuilderDataProvider
     {
         return [
             'Creating property node with an empty name.' => [
-                'builderFactory' => static fn (): ContextBuilder => new ContextBuilder()
+                'builderFactory' => static fn (): AttributeArgumentsBuilder => new AttributeArgumentsBuilder()
                     ->property(''),
-                'expectedException' => ContextException::class,
+                'expectedException' => AttributeArgumentsException::class,
                 'expectedExceptionCode' => 1004,
             ],
             'Creating property node with a context path separator in its name.' => [
-                'builderFactory' => static fn (): ContextBuilder => new ContextBuilder()
+                'builderFactory' => static fn (): AttributeArgumentsBuilder => new AttributeArgumentsBuilder()
                     ->property('root->child'),
-                'expectedException' => ContextException::class,
+                'expectedException' => AttributeArgumentsException::class,
                 'expectedExceptionCode' => 1005,
             ],
             'Creating property node with whitespace in its name.' => [
-                'builderFactory' => static fn (): ContextBuilder => new ContextBuilder()
+                'builderFactory' => static fn (): AttributeArgumentsBuilder => new AttributeArgumentsBuilder()
                     ->property('root child'),
-                'expectedException' => ContextException::class,
+                'expectedException' => AttributeArgumentsException::class,
                 'expectedExceptionCode' => 1005,
             ],
             'Creating array node with an empty name.' => [
-                'builderFactory' => static fn (): ContextBuilder => new ContextBuilder()
-                    ->property('children', function (ContextBuilder $builder): void {
+                'builderFactory' => static fn (): AttributeArgumentsBuilder => new AttributeArgumentsBuilder()
+                    ->property('children', function (AttributeArgumentsBuilder $builder): void {
                         $builder->attributeInArray('');
                     }),
-                'expectedException' => ContextException::class,
+                'expectedException' => AttributeArgumentsException::class,
                 'expectedExceptionCode' => 1004,
             ],
             'Creating array node with a context path separator in its name.' => [
-                'builderFactory' => static fn (): ContextBuilder => new ContextBuilder()
-                    ->property('children', function (ContextBuilder $builder): void {
+                'builderFactory' => static fn (): AttributeArgumentsBuilder => new AttributeArgumentsBuilder()
+                    ->property('children', function (AttributeArgumentsBuilder $builder): void {
                         $builder->attributeInArray('child->name');
                     }),
-                'expectedException' => ContextException::class,
+                'expectedException' => AttributeArgumentsException::class,
                 'expectedExceptionCode' => 1005,
             ],
             'Creating array node with whitespace in its name.' => [
-                'builderFactory' => static fn (): ContextBuilder => new ContextBuilder()
-                    ->property('children', function (ContextBuilder $builder): void {
+                'builderFactory' => static fn (): AttributeArgumentsBuilder => new AttributeArgumentsBuilder()
+                    ->property('children', function (AttributeArgumentsBuilder $builder): void {
                         $builder->attributeInArray('child name');
                     }),
-                'expectedException' => ContextException::class,
+                'expectedException' => AttributeArgumentsException::class,
                 'expectedExceptionCode' => 1005,
             ],
             'Creating attribute node with an empty name.' => [
-                'builderFactory' => static fn (): ContextBuilder => new ContextBuilder()
-                    ->property('simpleName', function (ContextBuilder $builder): void {
-                        $builder->attributeContext('', []);
+                'builderFactory' => static fn (): AttributeArgumentsBuilder => new AttributeArgumentsBuilder()
+                    ->property('simpleName', function (AttributeArgumentsBuilder $builder): void {
+                        $builder->attributeArguments('', []);
                     }),
-                'expectedException' => ContextException::class,
+                'expectedException' => AttributeArgumentsException::class,
                 'expectedExceptionCode' => 1004,
             ],
             'Creating attribute node with a context path separator in its name.' => [
-                'builderFactory' => static fn (): ContextBuilder => new ContextBuilder()
-                    ->property('simpleName', function (ContextBuilder $builder): void {
-                        $builder->attributeContext('child->name', []);
+                'builderFactory' => static fn (): AttributeArgumentsBuilder => new AttributeArgumentsBuilder()
+                    ->property('simpleName', function (AttributeArgumentsBuilder $builder): void {
+                        $builder->attributeArguments('child->name', []);
                     }),
-                'expectedException' => ContextException::class,
+                'expectedException' => AttributeArgumentsException::class,
                 'expectedExceptionCode' => 1005,
             ],
             'Creating attribute node with whitespace in its name.' => [
-                'builderFactory' => static fn (): ContextBuilder => new ContextBuilder()
-                    ->property('simpleName', function (ContextBuilder $builder): void {
-                        $builder->attributeContext('child name ', []);
+                'builderFactory' => static fn (): AttributeArgumentsBuilder => new AttributeArgumentsBuilder()
+                    ->property('simpleName', function (AttributeArgumentsBuilder $builder): void {
+                        $builder->attributeArguments('child name ', []);
                     }),
-                'expectedException' => ContextException::class,
+                'expectedException' => AttributeArgumentsException::class,
                 'expectedExceptionCode' => 1005,
             ],
         ];

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\TestSamples\Isolated\TransformPropertyName;
 
@@ -15,5 +15,6 @@ readonly class ContextAwareTransformPropertyName
             ContextAwareNameModifier::transform(...)
         )]
         public string $contextAwareName,
-    ) {}
+    ) {
+    }
 }

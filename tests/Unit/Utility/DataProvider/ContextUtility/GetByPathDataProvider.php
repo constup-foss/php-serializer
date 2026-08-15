@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ConstupFoss\PhpSerializer\Tests\Unit\Utility\DataProvider\ContextUtility;
 
-use ConstupFoss\PhpSerializer\Exceptions\ContextException;
+use ConstupFoss\PhpSerializer\Exceptions\AttributeArgumentsException;
 
 readonly class GetByPathDataProvider
 {
@@ -12,7 +12,7 @@ readonly class GetByPathDataProvider
     {
         return [
             'Object context. Valid object path.' => [
-                'context' => (object)[
+                'attributeArguments' => (object)[
                     'root' => (object)[
                         'foo' => (object)[
                             'bar' => 'baz',
@@ -25,7 +25,7 @@ readonly class GetByPathDataProvider
                 ],
             ],
             'Object context. Valid array path.' => [
-                'context' => (object)[
+                'attributeArguments' => (object)[
                     'root' => (object)[
                         'foo' => [
                             'bar' => 'baz',
@@ -38,7 +38,7 @@ readonly class GetByPathDataProvider
                 ],
             ],
             'Object context. Deeply nested path.' => [
-                'context' => (object)[
+                'attributeArguments' => (object)[
                     'root' => (object)[
                         'foo' => (object)[
                             'bar' => [
@@ -53,7 +53,7 @@ readonly class GetByPathDataProvider
                 'expected' => 'fie',
             ],
             'Array context. Valid path.' => [
-                'context' => [
+                'attributeArguments' => [
                     'root' => [
                         'foo' => [
                             'bar' => 'baz',
@@ -66,7 +66,7 @@ readonly class GetByPathDataProvider
                 ],
             ],
             'Array context. Deeply nested path.' => [
-                'context' => [
+                'attributeArguments' => [
                     'root' => [
                         'foo' => [
                             'bar' => [
@@ -87,7 +87,7 @@ readonly class GetByPathDataProvider
     {
         return [
             'Path is empty' => [
-                'context' => [
+                'attributeArguments' => [
                     'root' => [
                         'foo' => [
                             'bar' => 'baz',
@@ -95,31 +95,31 @@ readonly class GetByPathDataProvider
                     ],
                 ],
                 'path' => '',
-                'expectedException' => ContextException::class,
+                'expectedException' => AttributeArgumentsException::class,
                 'expectedExceptionCode' => 1001,
             ],
             'Path contains an empty segment' => [
-                'context' => [
+                'attributeArguments' => [
                     'foo' => [
                         'bar' => 'baz',
                     ],
                 ],
                 'path' => 'foo->->bar',
-                'expectedException' => ContextException::class,
+                'expectedException' => AttributeArgumentsException::class,
                 'expectedExceptionCode' => 1002,
             ],
             'Path not found in object context. Object path.' => [
-                'context' => (object)[
+                'attributeArguments' => (object)[
                     'root' => (object)[
                         'foo' => (object)[],
                     ],
                 ],
                 'path' => 'root->baz',
-                'expectedException' => ContextException::class,
+                'expectedException' => AttributeArgumentsException::class,
                 'expectedExceptionCode' => 1000,
             ],
             'Path not found in object context. Array path.' => [
-                'context' => (object)[
+                'attributeArguments' => (object)[
                     'root' => (object)[
                         'foo' => [
                             'bar' => 'baz',
@@ -127,21 +127,21 @@ readonly class GetByPathDataProvider
                     ],
                 ],
                 'path' => 'root->foo->bar->fee',
-                'expectedException' => ContextException::class,
+                'expectedException' => AttributeArgumentsException::class,
                 'expectedExceptionCode' => 1000,
             ],
             'Path not found in array context.' => [
-                'context' => [
+                'attributeArguments' => [
                     'root' => [
                         'foo' => [],
                     ],
                 ],
                 'path' => 'root->baz',
-                'expectedException' => ContextException::class,
+                'expectedException' => AttributeArgumentsException::class,
                 'expectedExceptionCode' => 1000,
             ],
             'Path contains a missing segment.' => [
-                'context' => [
+                'attributeArguments' => [
                     'root' => [
                         'foo' => [
                             'bar' => 'baz',
@@ -149,13 +149,13 @@ readonly class GetByPathDataProvider
                     ],
                 ],
                 'path' => 'root->fee->bar',
-                'expectedException' => ContextException::class,
+                'expectedException' => AttributeArgumentsException::class,
                 'expectedExceptionCode' => 1000,
             ],
             'Context is empty' => [
-                'context' => [],
+                'attributeArguments' => [],
                 'path' => 'root->foo->bar',
-                'expectedException' => ContextException::class,
+                'expectedException' => AttributeArgumentsException::class,
                 'expectedExceptionCode' => 1003,
             ],
         ];
