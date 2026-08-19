@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "44acd22ccb5edc8f78f6124da4372328",
+    "content-hash": "f60459c69e4fb47d73a31acbcf467724",
     "packages": [
         {
             "name": "constup-foss/php-attributes",
@@ -115,6 +115,63 @@
                 }
             ],
             "time": "2026-05-25T21:34:12+00:00"
+        },
+        {
+            "name": "constup-foss/php-reflection",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/constup-foss/php-reflection.git",
+                "reference": "877a3389dedb715570cc5fc5ca6c70169760673f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/constup-foss/php-reflection/zipball/877a3389dedb715570cc5fc5ca6c70169760673f",
+                "reference": "877a3389dedb715570cc5fc5ca6c70169760673f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.5"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.95",
+                "phpunit/phpunit": "^13"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ConstupFoss\\PhpReflection\\": "src"
+                },
+                "exclude-from-classmap": [
+                    "/tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Constup",
+                    "role": "Project Lead"
+                }
+            ],
+            "description": "A collection of PHP Reflection utilities.",
+            "support": {
+                "issues": "https://github.com/constup-foss/php-reflection/issues",
+                "source": "https://github.com/constup-foss/php-reflection/tree/1.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://www.buymeacoffee.com/puew3hvwvp",
+                    "type": "buymeacoffee"
+                },
+                {
+                    "url": "https://www.patreon.com/c/NikolaStojiljkovic",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2026-08-19T18:16:18+00:00"
         }
     ],
     "packages-dev": [
@@ -4736,7 +4793,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.5"
+        "php": ">=8.5",
+        "ext-yaml": "*"
     },
     "platform-dev": {},
     "plugin-api-version": "2.9.0"
