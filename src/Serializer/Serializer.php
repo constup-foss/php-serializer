@@ -26,15 +26,8 @@ readonly class Serializer implements SerializerInterface
     /**
      * @inheritDoc
      *
-     * @param object       $data
-     * @param array|object $attributeArguments
-     * @param int          $jsonFlags
-     * @param int          $jsonDepth
-     *
      * @throws AttributeArgumentsException
      * @throws ReflectionException
-     *
-     * @return false|string
      */
     public function toJson(
         object $data,
@@ -50,16 +43,8 @@ readonly class Serializer implements SerializerInterface
     /**
      * @inheritDoc
      *
-     * @param object       $data
-     * @param array|object $attributeArguments
-     * @param int          $yamlEncoding
-     * @param int          $yamlLineBreak
-     * @param array        $callbacks
-     *
      * @throws AttributeArgumentsException
      * @throws ReflectionException
-     *
-     * @return string
      */
     public function toYaml(
         object $data,
