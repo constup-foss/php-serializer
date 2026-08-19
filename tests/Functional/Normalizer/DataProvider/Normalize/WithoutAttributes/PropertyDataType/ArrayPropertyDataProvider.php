@@ -8,6 +8,8 @@ use ConstupFoss\PhpSerializer\Tests\CommonTestSamples\WithoutAttributes\Property
 use ConstupFoss\PhpSerializer\Tests\CommonTestSamples\WithoutAttributes\PropertyDataType\BoolPropertyClass;
 use ConstupFoss\PhpSerializer\Tests\CommonTestSamples\WithoutAttributes\PropertyDataType\FloatPropertyClass;
 use ConstupFoss\PhpSerializer\Tests\CommonTestSamples\WithoutAttributes\PropertyDataType\IntPropertyClass;
+use ConstupFoss\PhpSerializer\Tests\CommonTestSamples\WithoutAttributes\PropertyDataType\ObjectProperty\NestedServiceClass;
+use ConstupFoss\PhpSerializer\Tests\CommonTestSamples\WithoutAttributes\PropertyDataType\ObjectProperty\ServiceLeafClass;
 use ConstupFoss\PhpSerializer\Tests\CommonTestSamples\WithoutAttributes\PropertyDataType\StringPropertyClass;
 
 readonly class ArrayPropertyDataProvider
@@ -129,7 +131,7 @@ readonly class ArrayPropertyDataProvider
                     ],
                 ],
             ],
-            'Array of array objects' => [
+            'Array of array objects, including service classes' => [
                 'object' => new ArrayPropertyClass([
                     new ArrayPropertyClass([
                         11,
@@ -137,6 +139,10 @@ readonly class ArrayPropertyDataProvider
                         false,
                         new IntPropertyClass(111),
                         new FloatPropertyClass(111.11),
+                        new ServiceLeafClass(),
+                        new NestedServiceClass(
+                            new ServiceLeafClass()
+                        ),
                         new StringPropertyClass('sample value 1'),
                         new BoolPropertyClass(true),
                     ]),
@@ -155,6 +161,8 @@ readonly class ArrayPropertyDataProvider
                             false,
                             ['intProperty' => 111],
                             ['floatProperty' => 111.11],
+                            [],
+                            [],
                             ['stringProperty' => 'sample value 1'],
                             ['boolProperty' => true],
                         ]],
