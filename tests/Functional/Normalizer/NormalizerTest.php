@@ -13,6 +13,7 @@ use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalize
 use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalize\WithoutAttributes\PropertyDataType\BoolPropertyDataProvider;
 use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalize\WithoutAttributes\PropertyDataType\FloatPropertyDataProvider;
 use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalize\WithoutAttributes\PropertyDataType\IntPropertyDataProvider;
+use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalize\WithoutAttributes\PropertyDataType\ObjectPropertyDataProvider;
 use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalize\WithoutAttributes\PropertyDataType\StringPropertyDataProvider;
 use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalize\WithoutAttributesDataProvider;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
@@ -25,6 +26,7 @@ class NormalizerTest extends TestCase
     #[DataProviderExternal(BoolPropertyDataProvider::class, 'provide_HappyFlow')]
     #[DataProviderExternal(StringPropertyDataProvider::class, 'provide_HappyFlow')]
     #[DataProviderExternal(ArrayPropertyDataProvider::class, 'provide_HappyFlow')]
+    #[DataProviderExternal(ObjectPropertyDataProvider::class, 'provide_HappyFlow')]
     #[DataProviderExternal(WithoutAttributesDataProvider::class, 'provide_HappyFlow')]
     #[DataProviderExternal(DoNotSerializeDataProvider::class, 'provide_HappyFlow')]
     #[DataProviderExternal(TransformPropertyNameDataProvider::class, 'provide_HappyFlow')]
