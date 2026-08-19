@@ -1,18 +1,19 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
-namespace ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalizer;
+namespace ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalize;
 
-use ConstupFoss\PhpSerializer\Tests\CommonTestSamples\WithoutAttributes\IndividualCase\ArrayPropertyClass;
-use ConstupFoss\PhpSerializer\Tests\CommonTestSamples\WithoutAttributes\IndividualCase\IntPropertyClass;
-use ConstupFoss\PhpSerializer\Tests\CommonTestSamples\WithoutAttributes\IndividualCase\NestedServiceClass;
-use ConstupFoss\PhpSerializer\Tests\CommonTestSamples\WithoutAttributes\IndividualCase\StringPropertyClass;
-use ConstupFoss\PhpSerializer\Tests\CommonTestSamples\WithoutAttributes\ServiceLeafClass;
+use ConstupFoss\PhpSerializer\Tests\CommonTestSamples\WithoutAttributes\PropertyDataType\ArrayPropertyClass;
+use ConstupFoss\PhpSerializer\Tests\CommonTestSamples\WithoutAttributes\PropertyDataType\IntPropertyClass;
+use ConstupFoss\PhpSerializer\Tests\CommonTestSamples\WithoutAttributes\PropertyDataType\ObjectProperty\NestedServiceClass;
+use ConstupFoss\PhpSerializer\Tests\CommonTestSamples\WithoutAttributes\PropertyDataType\ObjectProperty\ServiceLeafClass;
+use ConstupFoss\PhpSerializer\Tests\CommonTestSamples\WithoutAttributes\PropertyDataType\StringPropertyClass;
 
 readonly class WithoutAttributesDataProvider
 {
-    public static function provide_HappyFlow(): array {
+    public static function provide_HappyFlow(): array
+    {
         return [
             'Nested service class.' => [
                 'object' => new NestedServiceClass(
@@ -45,15 +46,15 @@ readonly class WithoutAttributesDataProvider
                     arrayProperty: [
                         new IntPropertyClass(23),
                         new IntPropertyClass(34),
-                        new IntPropertyClass(45)
+                        new IntPropertyClass(45),
                     ]
                 ),
                 'attributeArguments' => [],
                 'expected' => ['arrayProperty' => [
                         0 => ['intProperty' => 23],
                         1 => ['intProperty' => 34],
-                        2 => ['intProperty' => 45]
-                    ]
+                        2 => ['intProperty' => 45],
+                    ],
                 ],
             ],
             'Array of the same objects with null included.' => [
@@ -70,8 +71,8 @@ readonly class WithoutAttributesDataProvider
                         0 => ['intProperty' => 23],
                         1 => null,
                         2 => ['intProperty' => 34],
-                        3 => ['intProperty' => 45]
-                    ]
+                        3 => ['intProperty' => 45],
+                    ],
                 ],
             ],
             'Array of the same objects with null leaf value.' => [
@@ -80,7 +81,7 @@ readonly class WithoutAttributesDataProvider
                         new IntPropertyClass(null),
                         null,
                         new IntPropertyClass(23),
-                        new IntPropertyClass(34)
+                        new IntPropertyClass(34),
                     ]
                 ),
                 'attributeArguments' => [],
@@ -88,7 +89,7 @@ readonly class WithoutAttributesDataProvider
                     0 => ['intProperty' => null],
                     1 => null,
                     2 => ['intProperty' => 23],
-                    3 => ['intProperty' => 34]
+                    3 => ['intProperty' => 34],
                 ]],
             ],
             'Array of different objects.' => [
@@ -96,14 +97,14 @@ readonly class WithoutAttributesDataProvider
                     arrayProperty: [
                         new IntPropertyClass(23),
                         new StringPropertyClass('string value'),
-                        new IntPropertyClass(34)
+                        new IntPropertyClass(34),
                     ]
                 ),
                 'attributeArguments' => [],
                 'expected' => ['arrayProperty' => [
                     0 => ['intProperty' => 23],
                     1 => ['stringProperty' => 'string value'],
-                    2 => ['intProperty' => 34]
+                    2 => ['intProperty' => 34],
                 ]],
             ],
         ];

@@ -95,8 +95,8 @@ class AttributeArgumentsUtility
     /**
      * Resolves the attribute arguments path for an array item.
      *
-     * @param mixed  $item
-     * @param string $attributeArgumentsPath
+     * @param mixed        $item
+     * @param string       $attributeArgumentsPath
      * @param array|object $attributeArguments
      *
      * @return string

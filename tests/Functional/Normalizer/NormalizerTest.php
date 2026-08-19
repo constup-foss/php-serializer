@@ -5,11 +5,11 @@ declare(strict_types = 1);
 namespace ConstupFoss\PhpSerializer\Tests\Functional\Normalizer;
 
 use ConstupFoss\PhpSerializer\Normalizer\Normalizer;
-use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalizer\DoNotSerializeDataProvider;
-use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalizer\MixedAttributesDataProvider;
-use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalizer\TransformPropertyNameDataProvider;
-use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalizer\TransformPropertyValueDataProvider;
-use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalizer\WithoutAttributesDataProvider;
+use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalize\DoNotSerializeDataProvider;
+use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalize\MixedAttributesDataProvider;
+use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalize\TransformPropertyNameDataProvider;
+use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalize\TransformPropertyValueDataProvider;
+use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalize\WithoutAttributesDataProvider;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\TestCase;
 
@@ -27,8 +27,6 @@ class NormalizerTest extends TestCase
     ): void {
         $class = new Normalizer();
         $result = $class->normalize($object, $attributeArguments);
-
-        var_dump($result);
 
         $this->assertEquals($expected, $result);
     }

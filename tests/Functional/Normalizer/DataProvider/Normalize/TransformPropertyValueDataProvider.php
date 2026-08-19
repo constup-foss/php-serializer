@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalizer;
+namespace ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalize;
 
 use Constup\PhpAttributes\Serialization\TransformPropertyValue\TransformPropertyValue;
 use ConstupFoss\PhpSerializer\Exceptions\AttributeArgumentsException;

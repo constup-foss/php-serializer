@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalizer;
+namespace ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalize;
 
 use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\TestSamples\Isolated\DoNotSerialize\DoNotSerializeClass;
 use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\TestSamples\NonSerializableClass;
