@@ -73,7 +73,7 @@ class AttributeArgumentsException extends ConstupFossPhpSerializerException
      *
      * @return $this
      */
-    public function emptyContextNodeName(): self
+    public function emptyAttributeArgumentsNodeName(): self
     {
         $this->message = 'Attribute arguments node name is empty.';
         $this->debugMessage = 'Attribute arguments node name is empty.';

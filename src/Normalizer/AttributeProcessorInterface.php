@@ -23,6 +23,9 @@ interface AttributeProcessorInterface
      *  - `TransformPropertyName`
      *  - `TransformPropertyValue`
      *
+     * Returns a property after processing applicable attributes.
+     * Returns `null` if the property should not be serialized (ex. `DoNotSerialize` attribute is present).
+     *
      * @see https://packagist.org/packages/constup-foss/php-attributes
      *
      * @param ReflectionProperty $reflectionProperty     Reflection property to process.

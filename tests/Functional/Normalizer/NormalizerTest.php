@@ -9,11 +9,13 @@ use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalize
 use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalizer\MixedAttributesDataProvider;
 use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalizer\TransformPropertyNameDataProvider;
 use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalizer\TransformPropertyValueDataProvider;
+use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalizer\WithoutAttributesDataProvider;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\TestCase;
 
 class NormalizerTest extends TestCase
 {
+    #[DataProviderExternal(WithoutAttributesDataProvider::class, 'provide_HappyFlow')]
     #[DataProviderExternal(DoNotSerializeDataProvider::class, 'provide_HappyFlow')]
     #[DataProviderExternal(TransformPropertyNameDataProvider::class, 'provide_HappyFlow')]
     #[DataProviderExternal(TransformPropertyValueDataProvider::class, 'provide_HappyFlow')]
@@ -25,6 +27,8 @@ class NormalizerTest extends TestCase
     ): void {
         $class = new Normalizer();
         $result = $class->normalize($object, $attributeArguments);
+
+        var_dump($result);
 
         $this->assertEquals($expected, $result);
     }

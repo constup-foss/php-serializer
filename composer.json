@@ -22,6 +22,7 @@
   },
   "require": {
     "php": ">=8.5",
+    "ext-yaml": "*",
     "constup-foss/php-exerr": "^1.0",
     "constup-foss/php-attributes": "^3.5"
   },

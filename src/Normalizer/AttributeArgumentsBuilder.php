@@ -118,7 +118,7 @@ class AttributeArgumentsBuilder
     private function validateNodeName(string $name): void
     {
         if ($name === '') {
-            throw new AttributeArgumentsException()->emptyContextNodeName();
+            throw new AttributeArgumentsException()->emptyAttributeArgumentsNodeName();
         }
 
         if (

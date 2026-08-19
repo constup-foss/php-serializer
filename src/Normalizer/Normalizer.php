@@ -4,10 +4,12 @@ declare(strict_types = 1);
 
 namespace ConstupFoss\PhpSerializer\Normalizer;
 
+use ConstupFoss\PhpSerializer\Exceptions\AttributeArgumentsException;
 use ConstupFoss\PhpSerializer\Utility\AttributeArgumentsUtility;
 use ReflectionClass;
+use ReflectionException;
 
-readonly class Normalizer
+readonly class Normalizer implements NormalizerInterface
 {
     private ?AttributeProcessorInterface $attributeProcessor;
 
@@ -21,15 +23,40 @@ readonly class Normalizer
         }
     }
 
+    /**
+     * @inheritDoc
+     *
+     * @param object       $object
+     * @param array|object $attributeArguments
+     *
+     * @throws AttributeArgumentsException
+     * @throws ReflectionException
+     *
+     * @return array
+     */
     public function normalize(
         object $object,
         array|object $attributeArguments = [],
     ): array {
-        $attributeArgumentsPath = 'root';
-
-        return $this->normalizeObject($object, $attributeArgumentsPath, $attributeArguments);
+        return $this->normalizeObject(
+            object: $object,
+            attributeArgumentsPath: 'root',
+            attributeArguments: $attributeArguments
+        );
     }
 
+    /**
+     * Converts a PHP object to an array.
+     *
+     * @param object       $object
+     * @param string       $attributeArgumentsPath
+     * @param array|object $attributeArguments
+     *
+     * @throws AttributeArgumentsException
+     * @throws ReflectionException
+     *
+     * @return array
+     */
     private function normalizeObject(
         object $object,
         string $attributeArgumentsPath,
@@ -75,8 +102,13 @@ readonly class Normalizer
                 $attributeArguments,
             );
 
-            /* since null values are handled above, this null value means that the property is not serializable */
-            if ($value === null) {
+            if (
+                // Since null values are handled above, this null value means that the property is not serializable.
+                $value === null ||
+                // When pure service classes or classes without properties are normalized, they return an empty array.
+                // We need to filter them out and separate them from array properties that contain an empty array.
+                (is_object($property->value) && $value === [])
+            ) {
                 continue;
             }
 
@@ -86,6 +118,18 @@ readonly class Normalizer
         return $result;
     }
 
+    /**
+     * Converts a value of a property to a value that goes into the normalized array.
+     *
+     * @param mixed        $value
+     * @param string       $attributeArgumentsPath
+     * @param array|object $attributeArguments
+     *
+     * @throws AttributeArgumentsException
+     * @throws ReflectionException
+     *
+     * @return mixed
+     */
     private function normalizeValue(
         mixed $value,
         string $attributeArgumentsPath,
@@ -106,6 +150,18 @@ readonly class Normalizer
         }
     }
 
+    /**
+     * Normalizes an array.
+     *
+     * @param array        $array
+     * @param string       $attributeArgumentsPath
+     * @param array|object $attributeArguments
+     *
+     * @throws AttributeArgumentsException
+     * @throws ReflectionException
+     *
+     * @return array
+     */
     private function normalizeArray(
         array $array,
         string $attributeArgumentsPath,
@@ -114,29 +170,15 @@ readonly class Normalizer
         $result = [];
 
         foreach ($array as $key => $item) {
-            $itemContextPath = $this->resolveArrayItemAttributeArgumentsPath($item, $attributeArgumentsPath, $attributeArguments);
+            $itemAttributeArgumentsPath = AttributeArgumentsUtility::resolveArrayItemAttributeArgumentsPath(
+                $item,
+                $attributeArgumentsPath,
+                $attributeArguments
+            );
 
-            $result[$key] = $this->normalizeValue($item, $itemContextPath, $attributeArguments);
+            $result[$key] = $this->normalizeValue($item, $itemAttributeArgumentsPath, $attributeArguments);
         }
 
         return $result;
-    }
-
-    private function resolveArrayItemAttributeArgumentsPath(
-        mixed $item,
-        string $attributeArgumentsPath,
-        array|object $attributeArguments,
-    ): string {
-        if (!is_object($item)) {
-            return $attributeArgumentsPath;
-        }
-
-        $candidatePath = $attributeArgumentsPath . '->__types->' . get_class($item);
-
-        if (AttributeArgumentsUtility::hasPath($attributeArguments, $candidatePath)) {
-            return $candidatePath;
-        }
-
-        return $attributeArgumentsPath;
     }
 }

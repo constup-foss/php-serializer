@@ -107,7 +107,6 @@ readonly class MixedAttributesDataProvider
                     'serializableChildClass' => [
                         'TEST_FROM_CONTEXT_changedNameAndValue' => 'changed name and value_TEST_FROM_CONTEXT',
                     ],
-                    'emptyAfterSerialization' => [],
                     'nullableSerializableChildClass' => null,
                     'nullAfterValueTransformation' => null,
                     'TEST_FROM_CONTEXT_transformationInsideTransformedName' => [

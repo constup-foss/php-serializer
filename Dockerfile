@@ -25,6 +25,7 @@ RUN chmod +x /usr/local/bin/install-php-extensions && \
         gmp \
         pcov \
         xdebug \
+        yaml \
         && \
     chmod +x /usr/bin/composer
 RUN (groupadd phpgroup -g ${PROJECTINIT_GID} || groupadd phpgroup || true) && \
