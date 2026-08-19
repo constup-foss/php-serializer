@@ -4,10 +4,10 @@ declare(strict_types = 1);
 
 namespace ConstupFoss\PhpSerializer\Tests\CommonTestSamples\WithoutAttributes\PropertyDataType;
 
-readonly class FloatProperty
+readonly class BoolPropertyClass
 {
     public function __construct(
-        public ?float $floatProperty
+        public ?bool $boolProperty,
     ) {
     }
 }
