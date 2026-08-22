@@ -4,8 +4,6 @@ declare(strict_types = 1);
 
 namespace ConstupFoss\PhpSerializer\Normalizer;
 
-use ConstupFoss\PhpSerializer\Exceptions\AttributeArgumentsException;
-use ReflectionException;
 use ReflectionProperty;
 use stdClass;
 
@@ -32,9 +30,6 @@ interface AttributeProcessorInterface
      * @param object             $object                 Object to normalize.
      * @param string             $attributeArgumentsPath Attribute arguments path.
      * @param array|stdClass     $attributeArguments     Attribute arguments.
-     *
-     * @throws AttributeArgumentsException
-     * @throws ReflectionException
      *
      * @return Property|null
      */

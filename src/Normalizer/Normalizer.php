@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ConstupFoss\PhpSerializer\Normalizer;
 
-use ConstupFoss\PhpSerializer\Exceptions\AttributeArgumentsException;
+use ConstupFoss\PhpPropertyMetadata\Exceptions\MetadataTreeException;
 use ConstupFoss\PhpSerializer\Utility\AttributeArgumentsUtility;
 use ReflectionClass;
 use ReflectionException;
@@ -29,7 +29,7 @@ readonly class Normalizer implements NormalizerInterface
      * @param object       $object
      * @param array|object $attributeArguments
      *
-     * @throws AttributeArgumentsException
+     * @throws MetadataTreeException
      * @throws ReflectionException
      *
      * @return array
@@ -52,8 +52,8 @@ readonly class Normalizer implements NormalizerInterface
      * @param string       $attributeArgumentsPath
      * @param array|object $attributeArguments
      *
-     * @throws AttributeArgumentsException
      * @throws ReflectionException
+     * @throws MetadataTreeException
      *
      * @return array
      */
@@ -125,7 +125,7 @@ readonly class Normalizer implements NormalizerInterface
      * @param string       $attributeArgumentsPath
      * @param array|object $attributeArguments
      *
-     * @throws AttributeArgumentsException
+     * @throws MetadataTreeException
      * @throws ReflectionException
      *
      * @return mixed
@@ -157,7 +157,7 @@ readonly class Normalizer implements NormalizerInterface
      * @param string       $attributeArgumentsPath
      * @param array|object $attributeArguments
      *
-     * @throws AttributeArgumentsException
+     * @throws MetadataTreeException
      * @throws ReflectionException
      *
      * @return array

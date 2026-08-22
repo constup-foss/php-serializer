@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\DataProvider\Normalize;
 
 use Constup\PhpAttributes\Serialization\TransformPropertyValue\TransformPropertyValue;
-use ConstupFoss\PhpSerializer\Exceptions\AttributeArgumentsException;
+use ConstupFoss\PhpPropertyMetadata\Exceptions\MetadataTreeException;
 use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\TestSamples\Isolated\TransformPropertyValue\ArrayContainingChild;
 use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\TestSamples\Isolated\TransformPropertyValue\ArrayTransformPropertyValue;
 use ConstupFoss\PhpSerializer\Tests\Functional\Normalizer\TestSamples\Isolated\TransformPropertyValue\Child01;
@@ -546,7 +546,7 @@ readonly class TransformPropertyValueDataProvider
                     simpleName: 'simple value',
                 ),
                 'attributeArguments' => [],
-                'expectedException' => AttributeArgumentsException::class,
+                'expectedException' => MetadataTreeException::class,
                 'expectedExceptionCode' => 1003,
             ],
         ];

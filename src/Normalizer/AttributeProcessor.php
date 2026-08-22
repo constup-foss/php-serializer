@@ -10,7 +10,7 @@ use Constup\PhpAttributes\Serialization\TransformPropertyName\TransformPropertyN
 use Constup\PhpAttributes\Serialization\TransformPropertyName\TransformPropertyNameProcessor;
 use Constup\PhpAttributes\Serialization\TransformPropertyValue\TransformPropertyValue;
 use Constup\PhpAttributes\Serialization\TransformPropertyValue\TransformPropertyValueProcessor;
-use ConstupFoss\PhpSerializer\Exceptions\AttributeArgumentsException;
+use ConstupFoss\PhpPropertyMetadata\Exceptions\MetadataTreeException;
 use ConstupFoss\PhpSerializer\Utility\AttributeArgumentsUtility;
 use ReflectionClass;
 use ReflectionException;
@@ -20,15 +20,10 @@ use stdClass;
 readonly class AttributeProcessor implements AttributeProcessorInterface
 {
     /**
-     * @param ReflectionProperty $reflectionProperty
-     * @param object             $object
-     * @param string             $attributeArgumentsPath
-     * @param array|stdClass     $attributeArguments
+     * @inheritDoc
      *
-     * @throws AttributeArgumentsException
      * @throws ReflectionException
-     *
-     * @return Property|null
+     * @throws MetadataTreeException
      */
     public function processAttributes(
         ReflectionProperty $reflectionProperty,
@@ -54,7 +49,7 @@ readonly class AttributeProcessor implements AttributeProcessorInterface
         if (IsAttributePresent::detectForReflectionProperty($reflectionProperty, TransformPropertyName::class)) {
             $convertedPropertyName = TransformPropertyNameProcessor::transform(
                 reflectionProperty: $reflectionProperty,
-                context: AttributeArgumentsUtility::getByPath(
+                context: AttributeArgumentsUtility::getValueFromPath(
                     $attributeArguments,
                     $attributeArgumentsPath . '->' . TransformPropertyName::class . '->attributeArguments'
                 ),
@@ -66,7 +61,7 @@ readonly class AttributeProcessor implements AttributeProcessorInterface
             $convertedPropertyValue = TransformPropertyValueProcessor::transform(
                 object: $object,
                 reflectionProperty: $reflectionProperty,
-                context: AttributeArgumentsUtility::getByPath(
+                context: AttributeArgumentsUtility::getValueFromPath(
                     $attributeArguments,
                     $attributeArgumentsPath . '->' . TransformPropertyValue::class . '->attributeArguments'
                 ),

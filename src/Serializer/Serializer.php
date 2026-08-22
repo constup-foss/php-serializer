@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace ConstupFoss\PhpSerializer\Serializer;
 
-use ConstupFoss\PhpSerializer\Exceptions\AttributeArgumentsException;
+use ConstupFoss\PhpPropertyMetadata\Exceptions\MetadataTreeException;
 use ConstupFoss\PhpSerializer\Normalizer\Normalizer;
 use ConstupFoss\PhpSerializer\Normalizer\NormalizerInterface;
 use ReflectionException;
@@ -26,8 +26,8 @@ readonly class Serializer implements SerializerInterface
     /**
      * @inheritDoc
      *
-     * @throws AttributeArgumentsException
      * @throws ReflectionException
+     * @throws MetadataTreeException
      */
     public function toJson(
         object $data,
@@ -43,7 +43,7 @@ readonly class Serializer implements SerializerInterface
     /**
      * @inheritDoc
      *
-     * @throws AttributeArgumentsException
+     * @throws MetadataTreeException
      * @throws ReflectionException
      */
     public function toYaml(
