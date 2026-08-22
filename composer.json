@@ -25,7 +25,8 @@
     "ext-yaml": "*",
     "constup-foss/php-exerr": "^1.0",
     "constup-foss/php-attributes": "^3.5",
-    "constup-foss/php-reflection": "^1.0"
+    "constup-foss/php-reflection": "^1.0",
+    "constup-foss/php-property-metadata": "^1.0"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.95",

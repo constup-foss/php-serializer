@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f60459c69e4fb47d73a31acbcf467724",
+    "content-hash": "1c2e38ea7de3c436f38c891982f8017f",
     "packages": [
         {
             "name": "constup-foss/php-attributes",
@@ -115,6 +115,65 @@
                 }
             ],
             "time": "2026-05-25T21:34:12+00:00"
+        },
+        {
+            "name": "constup-foss/php-property-metadata",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/constup-foss/php-property-metadata.git",
+                "reference": "5479009c7fa05d65f23fdeaab20b9ab4e42e3ceb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/constup-foss/php-property-metadata/zipball/5479009c7fa05d65f23fdeaab20b9ab4e42e3ceb",
+                "reference": "5479009c7fa05d65f23fdeaab20b9ab4e42e3ceb",
+                "shasum": ""
+            },
+            "require": {
+                "constup-foss/php-exerr": "^1.0",
+                "php": ">=8.5"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.24",
+                "friendsofphp/php-cs-fixer": "^3.95",
+                "phpunit/phpunit": "^13"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ConstupFoss\\PhpPropertyMetadata\\": "src"
+                },
+                "exclude-from-classmap": [
+                    "/tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Constup",
+                    "role": "Project Lead"
+                }
+            ],
+            "description": "Reusable metadata tree implementation for classes/objects and their properties in PHP.",
+            "support": {
+                "issues": "https://github.com/constup-foss/php-property-metadata/issues",
+                "source": "https://github.com/constup-foss/php-property-metadata/tree/1.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://www.buymeacoffee.com/puew3hvwvp",
+                    "type": "buymeacoffee"
+                },
+                {
+                    "url": "https://www.patreon.com/c/NikolaStojiljkovic",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2026-08-22T14:55:55+00:00"
         },
         {
             "name": "constup-foss/php-reflection",
