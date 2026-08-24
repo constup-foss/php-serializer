@@ -57,9 +57,12 @@ readonly class AttributeProcessor implements AttributeProcessorInterface
      * Process `DoNotSerialize` attribute.
      *
      * @param ReflectionProperty $reflectionProperty
-     * @param object $object
-     * @return bool `true` if the property should not be serialized, `false` otherwise.
+     * @param object             $object
+     *
      * @throws ReflectionException
+     *
+     * @return bool `true` if the property should not be serialized, `false` otherwise.
+     *
      * @see DoNotSerializeProcessor
      */
     private function processDoNotSerialize(
@@ -85,10 +88,13 @@ readonly class AttributeProcessor implements AttributeProcessorInterface
      * Process `TransformPropertyName` attribute.
      *
      * @param ReflectionProperty $reflectionProperty
-     * @param string $attributeArgumentsPath
-     * @param array|stdClass $attributeArguments
-     * @return string
+     * @param string             $attributeArgumentsPath
+     * @param array|stdClass     $attributeArguments
+     *
      * @throws MetadataTreeException
+     *
+     * @return string
+     *
      * @see TransformPropertyNameProcessor
      */
     private function processTransformPropertyName(
@@ -114,11 +120,14 @@ readonly class AttributeProcessor implements AttributeProcessorInterface
      * Process `TransformPropertyValue` attribute.
      *
      * @param ReflectionProperty $reflectionProperty
-     * @param object $object
-     * @param string $attributeArgumentsPath
-     * @param array|stdClass $attributeArguments
-     * @return mixed
+     * @param object             $object
+     * @param string             $attributeArgumentsPath
+     * @param array|stdClass     $attributeArguments
+     *
      * @throws MetadataTreeException
+     *
+     * @return mixed
+     *
      * @see TransformPropertyValueProcessor
      */
     private function processTransformPropertyValue(
