@@ -31,21 +31,72 @@ readonly class AttributeProcessor implements AttributeProcessorInterface
         string             $attributeArgumentsPath,
         array|stdClass     $attributeArguments,
     ): ?Property {
-        if (DoNotSerializeProcessor::detectForReflectionProperty($reflectionProperty)) {
+        if ($this->processDoNotSerialize($reflectionProperty, $object)) {
             return null;
+        }
+
+        $attributeArgumentsPath = $attributeArgumentsPath . '->' . $reflectionProperty->getName();
+
+        $convertedPropertyName = $this->processTransformPropertyName(
+            $reflectionProperty,
+            $attributeArgumentsPath,
+            $attributeArguments
+        );
+
+        $convertedPropertyValue = $this->processTransformPropertyValue(
+            $reflectionProperty,
+            $object,
+            $attributeArgumentsPath,
+            $attributeArguments,
+        );
+
+        return PropertyFactory::produce($convertedPropertyName, $convertedPropertyValue, $attributeArgumentsPath);
+    }
+
+    /**
+     * Process `DoNotSerialize` attribute.
+     *
+     * @param ReflectionProperty $reflectionProperty
+     * @param object $object
+     * @return bool `true` if the property should not be serialized, `false` otherwise.
+     * @throws ReflectionException
+     * @see DoNotSerializeProcessor
+     */
+    private function processDoNotSerialize(
+        ReflectionProperty $reflectionProperty,
+        object $object
+    ): bool {
+        if (DoNotSerializeProcessor::detectForReflectionProperty($reflectionProperty)) {
+            return true;
         }
 
         $propertyName = $reflectionProperty->getName();
         if (gettype($object->{$propertyName}) === 'object') {
             $reflectionClass = new ReflectionClass($object->{$propertyName});
             if (DoNotSerializeProcessor::detectForReflectionClass($reflectionClass)) {
-                return null;
+                return true;
             }
         }
 
-        $attributeArgumentsPath = $attributeArgumentsPath . '->' . $reflectionProperty->getName();
+        return false;
+    }
 
-        $convertedPropertyName = $propertyName;
+    /**
+     * Process `TransformPropertyName` attribute.
+     *
+     * @param ReflectionProperty $reflectionProperty
+     * @param string $attributeArgumentsPath
+     * @param array|stdClass $attributeArguments
+     * @return string
+     * @throws MetadataTreeException
+     * @see TransformPropertyNameProcessor
+     */
+    private function processTransformPropertyName(
+        ReflectionProperty $reflectionProperty,
+        string             $attributeArgumentsPath,
+        array|stdClass     $attributeArguments,
+    ): string {
+        $convertedPropertyName = $reflectionProperty->getName();
         if (IsAttributePresent::detectForReflectionProperty($reflectionProperty, TransformPropertyName::class)) {
             $convertedPropertyName = TransformPropertyNameProcessor::transform(
                 reflectionProperty: $reflectionProperty,
@@ -56,6 +107,26 @@ readonly class AttributeProcessor implements AttributeProcessorInterface
             );
         }
 
+        return $convertedPropertyName;
+    }
+
+    /**
+     * Process `TransformPropertyValue` attribute.
+     *
+     * @param ReflectionProperty $reflectionProperty
+     * @param object $object
+     * @param string $attributeArgumentsPath
+     * @param array|stdClass $attributeArguments
+     * @return mixed
+     * @throws MetadataTreeException
+     * @see TransformPropertyValueProcessor
+     */
+    private function processTransformPropertyValue(
+        ReflectionProperty $reflectionProperty,
+        object             $object,
+        string             $attributeArgumentsPath,
+        array|stdClass     $attributeArguments,
+    ): mixed {
         $convertedPropertyValue = $reflectionProperty->getValue($object);
         if (IsAttributePresent::detectForReflectionProperty($reflectionProperty, TransformPropertyValue::class)) {
             $convertedPropertyValue = TransformPropertyValueProcessor::transform(
@@ -68,6 +139,6 @@ readonly class AttributeProcessor implements AttributeProcessorInterface
             );
         }
 
-        return PropertyFactory::produce($convertedPropertyName, $convertedPropertyValue, $attributeArgumentsPath);
+        return $convertedPropertyValue;
     }
 }
